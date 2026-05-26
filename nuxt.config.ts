@@ -16,7 +16,12 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode",
     "@nuxtjs/seo",
     "@nuxtjs/tailwindcss",
+    "@vueuse/nuxt",
   ],
+
+  colorMode: {
+    classSuffix: "",
+  },
 
   vite: {
     optimizeDeps: {
@@ -24,4 +29,3 @@ export default defineNuxtConfig({
     },
   },
 });
-
