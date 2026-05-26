@@ -1,7 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "2025-07-15",
+  compatibilityDate: "2026-01-01",
   devtools: { enabled: true },
+
+  css: ["./app/assets/css/main.css"],
 
   modules: [
     "@nuxt/content",
@@ -22,3 +24,4 @@ export default defineNuxtConfig({
     },
   },
 });
+

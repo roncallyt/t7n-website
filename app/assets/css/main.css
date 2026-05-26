@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --color-shark-50: #fafafa;
+  --color-shark-100: #f4f4f5;
+  --color-shark-200: #e4e5e7;
+  --color-shark-300: #d3d5d9;
+  --color-shark-400: #a0a4ab;
+  --color-shark-500: #70747b;
+  --color-shark-600: #51555c;
+  --color-shark-700: #3e4247;
+  --color-shark-800: #27282a;
+  --color-shark-900: #1e2023;
+  --color-shark-950: #090a0b;
+}
