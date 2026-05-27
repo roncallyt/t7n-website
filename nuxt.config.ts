@@ -23,6 +23,34 @@ export default defineNuxtConfig({
     classSuffix: "",
   },
 
+  i18n: {
+    baseUrl: process.env.NUXT_PUBLIC_SITE_URL || "http://localhost:3000",
+    strategy: "prefix_except_default",
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: "i18n_redirected",
+      redirectOn: "root",
+    },
+    locales: [
+      {
+        flag: "us",
+        code: "en",
+        language: "en-US",
+        name: "English",
+        isCatchallLocale: false,
+      },
+      {
+        flag: "br",
+        code: "pt-br",
+        language: "pt-BR",
+        name: "Português do Brasil",
+        isCatchallLocale: true,
+      },
+    ],
+    defaultLocale: "pt-br",
+    vueI18n: "./i18n.config.ts",
+  },
+
   vite: {
     optimizeDeps: {
       exclude: ["@nuxtjs/mdc"],
