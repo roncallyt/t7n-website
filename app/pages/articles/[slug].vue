@@ -5,7 +5,7 @@ const collection = useLocalizedCollection("articles");
 const { data: page } = await useAsyncData(
   `article-${collection.value}-${route.params.slug}`,
   () =>
-    queryCollection(collection.value as any)
+    queryCollection(collection.value)
       .path(route.path)
       .first(),
   { watch: [collection] },

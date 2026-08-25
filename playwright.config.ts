@@ -1,6 +1,6 @@
 import { fileURLToPath } from "node:url";
 import { defineConfig, devices } from "@playwright/test";
-import { ConfigOptions } from "@nuxt/test-utils/playwright";
+import type { ConfigOptions } from "@nuxt/test-utils/playwright";
 
 export default defineConfig<ConfigOptions>({
   testDir: "./e2e",

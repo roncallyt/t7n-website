@@ -1,5 +1,8 @@
 <script setup lang="ts">
 const {
+  link = false,
+  href = undefined,
+  target = undefined,
   type = "button",
   rectangle = false,
   rounded = false,
@@ -8,6 +11,7 @@ const {
   link?: boolean;
   href?: string;
   target?: string;
+  type?: "button" | "submit" | "reset";
   rectangle?: boolean;
   rounded?: boolean;
   borders?: boolean;
@@ -36,7 +40,7 @@ const classes = [
     <slot />
   </a>
 
-  <button v-else type="button" :class="classes">
+  <button v-else :type="type" :class="classes">
     <slot />
   </button>
 </template>

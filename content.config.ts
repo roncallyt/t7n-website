@@ -22,7 +22,7 @@ const articleSchema = z.object({
 
 const locales = ["en", "pt-br"];
 
-function createLocalizedCollections(name: string, schema: z.ZodObject<any>) {
+function createLocalizedCollections(name: string, schema: z.ZodObject) {
   return Object.fromEntries(
     locales.map((locale) => {
       const key = `${name}_${locale.replace("-", "_")}`;

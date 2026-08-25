@@ -5,7 +5,7 @@ const collection = useLocalizedCollection("projects");
 const { data: project } = await useAsyncData(
   `project-${collection.value}-${route.params.slug}`,
   () =>
-    queryCollection(collection.value as any)
+    queryCollection(collection.value)
       .path(route.path)
       .first(),
   { watch: [collection] },
@@ -46,7 +46,7 @@ useSeoMeta({
           :src="project.image"
           :alt="project.title"
           class="w-full h-full object-cover"
-        />
+        >
       </div>
 
       <article class="prose prose-lg dark:prose-invert max-w-none">
