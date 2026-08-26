@@ -11,6 +11,10 @@ const { data: page } = await useAsyncData(
   { watch: [collection] },
 );
 
+if (!page.value) {
+  throw createError({ statusCode: 404, statusMessage: "Article not found" });
+}
+
 useSeoMeta({
   title: () => page.value?.title,
   description: () => page.value?.description,

@@ -4,12 +4,13 @@ import type { ConfigOptions } from "@nuxt/test-utils/playwright";
 
 export default defineConfig<ConfigOptions>({
   testDir: "./e2e",
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: 1,
   reporter: "html",
   use: {
+    locale: "pt-BR",
     trace: "on-first-retry",
     nuxt: {
       rootDir: fileURLToPath(new URL(".", import.meta.url)),

@@ -5,12 +5,16 @@ export default defineNuxtConfig({
 
   css: ["./app/assets/css/main.css"],
 
+  site: {
+    name: "Thomerson Roncally",
+    url: process.env.NUXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  },
+
   modules: [
     "@nuxt/content",
     "@nuxt/eslint",
     "@nuxt/fonts",
     "@nuxt/icon",
-    "@nuxt/test-utils",
     "@nuxtjs/i18n",
     "@pinia/nuxt",
     "@nuxtjs/color-mode",
