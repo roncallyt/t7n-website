@@ -1,0 +1,51 @@
+minimum_version: 2.11.0
+
+service: t7n-website
+image: roncallyt/t7n-website
+
+servers:
+  web:
+    hosts:
+      - 80.190.76.16
+    proxy:
+      host: t7n.dev
+      ssl: false
+      forward_headers: true
+      app_port: 3000
+      healthcheck:
+        path: /up
+        interval: 3
+        timeout: 5
+
+registry:
+  server: ghcr.io
+  username:
+    - KAMAL_REGISTRY_USERNAME
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+  args:
+    NUXT_PUBLIC_SITE_URL: https://t7n.dev
+
+ssh:
+  user: kamal
+
+proxy:
+  run:
+    publish: false
+
+env:
+  clear:
+    NODE_ENV: production
+    NUXT_PUBLIC_SITE_URL: https://t7n.dev
+  secret:
+    - NUXT_OG_IMAGE_SECRET
+    - NUXT_LISTMONK_HOST
+    - NUXT_LISTMONK_LIST_ID
+    - NUXT_LISTMONK_API_USERNAME
+    - NUXT_LISTMONK_API_TOKEN
+
+volumes:
+  - "t7n_website_maintenance:/app/.data/nuxt-maintainer"

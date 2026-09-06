@@ -29,3 +29,7 @@ coverage/
 # Playwright
 playwright-report/
 test-results/
+
+# Kamal
+.kamal/secrets
+.kamal/secrets-common

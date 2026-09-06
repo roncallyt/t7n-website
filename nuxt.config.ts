@@ -42,7 +42,7 @@ export default defineNuxtConfig({
   },
 
   maintainer: {
-    exclude: ["/api/subscribe"],
+    exclude: ["/up", "/api/subscribe"],
   },
 
   listmonk: {
