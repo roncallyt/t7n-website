@@ -1,5 +1,12 @@
 import { expect, test } from "@nuxt/test-utils/playwright";
 
+test("reports that the application is healthy", async ({ request }) => {
+  const response = await request.get("/up");
+
+  expect(response.status()).toBe(200);
+  await expect(response.json()).resolves.toEqual({ status: "ok" });
+});
+
 test.describe("localized homepages", () => {
   test("renders the Portuguese homepage by default", async ({ page, goto }) => {
     await goto("/", { waitUntil: "hydration" });
