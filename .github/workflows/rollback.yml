@@ -91,9 +91,8 @@ jobs:
           VERSION: ${{ inputs.version }}
         run: kamal rollback "$VERSION"
 
-      - name: Verify direct-origin health
+      - name: Verify public health
         run: |
           curl --fail --silent --show-error \
             --retry 10 --retry-delay 3 --retry-all-errors \
-            --resolve t7n.dev:443:80.190.76.16 \
             https://t7n.dev/up
