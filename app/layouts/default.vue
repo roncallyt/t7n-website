@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 useHead({
   bodyAttrs: {
-    class: "bg-shark-100 dark:bg-shark-900",
+    class: "bg-woodsmoke-100 dark:bg-woodsmoke-900",
   },
 });
 </script>

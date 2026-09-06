@@ -21,10 +21,35 @@ export default defineNuxtConfig({
     "@nuxtjs/seo",
     "@nuxtjs/tailwindcss",
     "@vueuse/nuxt",
+    "nuxt-maintainer",
+    "nuxt-listmonk",
   ],
 
   colorMode: {
     classSuffix: "",
+  },
+
+  fonts: {
+    families: [
+      {
+        name: "JetBrains Mono",
+        provider: "google",
+        weights: [400, 600],
+        styles: ["normal"],
+        preload: true,
+      },
+    ],
+  },
+
+  maintainer: {
+    exclude: ["/api/subscribe"],
+  },
+
+  listmonk: {
+    host: process.env.NUXT_LISTMONK_HOST,
+    listId: process.env.NUXT_LISTMONK_LIST_ID,
+    apiUsername: process.env.NUXT_LISTMONK_API_USERNAME,
+    apiToken: process.env.NUXT_LISTMONK_API_TOKEN,
   },
 
   i18n: {
