@@ -1,0 +1,99 @@
+name: Roll back production
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Full 40-character Git SHA to restore
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  rollback:
+    name: Roll back production
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: read
+    concurrency:
+      group: production
+      cancel-in-progress: false
+    environment:
+      name: production
+      url: https://t7n.dev
+
+    steps:
+      - name: Check out master
+        uses: actions/checkout@v6
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Validate rollback version
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          if ! [[ "$VERSION" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "version must be a full 40-character lowercase Git SHA" >&2
+            exit 1
+          fi
+          git cat-file -e "${VERSION}^{commit}"
+          git merge-base --is-ancestor "$VERSION" origin/master
+
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      - name: Install Kamal
+        run: gem install kamal --version 2.11.0 --no-document
+
+      - name: Configure deployment credentials
+        env:
+          KAMAL_SSH_PRIVATE_KEY: ${{ secrets.KAMAL_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+          KAMAL_REGISTRY_USERNAME: ${{ github.actor }}
+          KAMAL_REGISTRY_PASSWORD: ${{ github.token }}
+          NUXT_OG_IMAGE_SECRET: ${{ secrets.NUXT_OG_IMAGE_SECRET }}
+          NUXT_LISTMONK_HOST: ${{ secrets.NUXT_LISTMONK_HOST }}
+          NUXT_LISTMONK_LIST_ID: ${{ secrets.NUXT_LISTMONK_LIST_ID }}
+          NUXT_LISTMONK_API_USERNAME: ${{ secrets.NUXT_LISTMONK_API_USERNAME }}
+          NUXT_LISTMONK_API_TOKEN: ${{ secrets.NUXT_LISTMONK_API_TOKEN }}
+        run: |
+          test -n "$KAMAL_SSH_PRIVATE_KEY"
+          test -n "$SSH_KNOWN_HOSTS"
+          test -n "$NUXT_OG_IMAGE_SECRET"
+          test -n "$NUXT_LISTMONK_HOST"
+          test -n "$NUXT_LISTMONK_LIST_ID"
+          test -n "$NUXT_LISTMONK_API_USERNAME"
+          test -n "$NUXT_LISTMONK_API_TOKEN"
+          install -m 700 -d "$HOME/.ssh" .kamal
+          install -m 600 /dev/null "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$KAMAL_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_ed25519"
+          install -m 600 /dev/null "$HOME/.ssh/known_hosts"
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          ssh-keygen -F 80.190.76.16 -f "$HOME/.ssh/known_hosts" >/dev/null
+          install -m 600 /dev/null .kamal/secrets
+          printf 'KAMAL_REGISTRY_USERNAME=%s\n' "$KAMAL_REGISTRY_USERNAME" > .kamal/secrets
+          printf 'KAMAL_REGISTRY_PASSWORD=%s\n' "$KAMAL_REGISTRY_PASSWORD" >> .kamal/secrets
+          printf 'NUXT_OG_IMAGE_SECRET=%s\n' "$NUXT_OG_IMAGE_SECRET" >> .kamal/secrets
+          printf 'NUXT_LISTMONK_HOST=%s\n' "$NUXT_LISTMONK_HOST" >> .kamal/secrets
+          printf 'NUXT_LISTMONK_LIST_ID=%s\n' "$NUXT_LISTMONK_LIST_ID" >> .kamal/secrets
+          printf 'NUXT_LISTMONK_API_USERNAME=%s\n' "$NUXT_LISTMONK_API_USERNAME" >> .kamal/secrets
+          printf 'NUXT_LISTMONK_API_TOKEN=%s\n' "$NUXT_LISTMONK_API_TOKEN" >> .kamal/secrets
+
+      - name: Roll back with Kamal
+        env:
+          VERSION: ${{ inputs.version }}
+        run: kamal rollback "$VERSION"
+
+      - name: Verify direct-origin health
+        run: |
+          curl --fail --silent --show-error \
+            --retry 10 --retry-delay 3 --retry-all-errors \
+            --resolve t7n.dev:443:80.190.76.16 \
+            https://t7n.dev/up
