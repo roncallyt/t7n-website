@@ -1,5 +1,29 @@
 <script setup lang="ts">
 const props = defineProps<{ error: unknown }>();
+
+interface ApplicationError {
+  statusCode?: number;
+  statusMessage?: string;
+  message?: string;
+}
+
+const applicationError = computed<ApplicationError>(() => {
+  if (typeof props.error !== "object" || props.error === null) {
+    return {};
+  }
+
+  return props.error as ApplicationError;
+});
+
+const statusCode = computed(() => applicationError.value.statusCode || 500);
+const errorMessage = computed(
+  () =>
+    applicationError.value.statusMessage ||
+    applicationError.value.message ||
+    "An unexpected error occurred",
+);
+
+const returnHome = () => clearError({ redirect: "/" });
 </script>
 
 <template>
@@ -86,4 +110,28 @@ const props = defineProps<{ error: unknown }>();
       </main>
     </NuxtLayout>
   </NuxtMaintenanceError>
+
+  <NuxtLayout v-else name="default">
+    <main class="flex min-h-screen items-center justify-center px-6 py-16">
+      <div
+        class="max-w-xl space-y-6 text-center text-woodsmoke-900 dark:text-woodsmoke-50"
+      >
+        <p class="font-mono text-sm text-fuchsia-blue-600 dark:text-fuchsia-blue-400">
+          Error {{ statusCode }}
+        </p>
+
+        <h1 class="text-4xl sm:text-5xl">
+          {{ errorMessage }}
+        </h1>
+
+        <button
+          type="button"
+          class="cursor-pointer rounded-lg bg-fuchsia-blue-600 px-5 py-3 text-woodsmoke-50 hover:bg-fuchsia-blue-700"
+          @click="returnHome"
+        >
+          Return home
+        </button>
+      </div>
+    </main>
+  </NuxtLayout>
 </template>
