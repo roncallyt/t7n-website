@@ -63,6 +63,10 @@ jobs:
           NUXT_LISTMONK_LIST_ID: ${{ secrets.NUXT_LISTMONK_LIST_ID }}
           NUXT_LISTMONK_API_USERNAME: ${{ secrets.NUXT_LISTMONK_API_USERNAME }}
           NUXT_LISTMONK_API_TOKEN: ${{ secrets.NUXT_LISTMONK_API_TOKEN }}
+          NUXT_PUBLIC_RECAPTCHA_SITE_KEY: ${{ secrets.NUXT_PUBLIC_RECAPTCHA_SITE_KEY }}
+          NUXT_RECAPTCHA_SECRET_KEY: ${{ secrets.NUXT_RECAPTCHA_SECRET_KEY }}
+          NUXT_REDIS_URL: ${{ secrets.NUXT_REDIS_URL }}
+          NUXT_RATE_LIMIT_HMAC_SECRET: ${{ secrets.NUXT_RATE_LIMIT_HMAC_SECRET }}
         run: |
           test -n "$KAMAL_SSH_PRIVATE_KEY"
           test -n "$SSH_KNOWN_HOSTS"
@@ -71,6 +75,10 @@ jobs:
           test -n "$NUXT_LISTMONK_LIST_ID"
           test -n "$NUXT_LISTMONK_API_USERNAME"
           test -n "$NUXT_LISTMONK_API_TOKEN"
+          test -n "$NUXT_PUBLIC_RECAPTCHA_SITE_KEY"
+          test -n "$NUXT_RECAPTCHA_SECRET_KEY"
+          test -n "$NUXT_REDIS_URL"
+          test -n "$NUXT_RATE_LIMIT_HMAC_SECRET"
           install -m 700 -d "$HOME/.ssh" .kamal
           install -m 600 /dev/null "$HOME/.ssh/id_ed25519"
           printf '%s\n' "$KAMAL_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_ed25519"
@@ -85,6 +93,10 @@ jobs:
           printf 'NUXT_LISTMONK_LIST_ID=%s\n' "$NUXT_LISTMONK_LIST_ID" >> .kamal/secrets
           printf 'NUXT_LISTMONK_API_USERNAME=%s\n' "$NUXT_LISTMONK_API_USERNAME" >> .kamal/secrets
           printf 'NUXT_LISTMONK_API_TOKEN=%s\n' "$NUXT_LISTMONK_API_TOKEN" >> .kamal/secrets
+          printf 'NUXT_PUBLIC_RECAPTCHA_SITE_KEY=%s\n' "$NUXT_PUBLIC_RECAPTCHA_SITE_KEY" >> .kamal/secrets
+          printf 'NUXT_RECAPTCHA_SECRET_KEY=%s\n' "$NUXT_RECAPTCHA_SECRET_KEY" >> .kamal/secrets
+          printf 'NUXT_REDIS_URL=%s\n' "$NUXT_REDIS_URL" >> .kamal/secrets
+          printf 'NUXT_RATE_LIMIT_HMAC_SECRET=%s\n' "$NUXT_RATE_LIMIT_HMAC_SECRET" >> .kamal/secrets
 
       - name: Roll back with Kamal
         env:

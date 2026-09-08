@@ -33,9 +33,9 @@ const returnHome = () => clearError({ redirect: "/" });
   >
     <NuxtLayout name="default">
       <main
-        class="flex min-h-screen w-full items-center overflow-hidden py-16 sm:py-24"
+        class="flex w-full flex-1 items-center overflow-hidden py-16 sm:py-24"
       >
-        <div class="mx-auto w-full max-w-7xl md:px-6 lg:px-8">
+        <div class="mx-auto w-full max-w-7xl">
           <div
             class="grid grid-cols-1 items-center gap-x-8 gap-y-16 sm:gap-y-20 lg:grid-cols-2"
           >
@@ -46,40 +46,22 @@ const returnHome = () => clearError({ redirect: "/" });
                 <Icon name="tabler:terminal" class="text-6xl" />
 
                 <NuxtMaintenanceErrorTitle>
-                  <h1 class="text-4xl sm:text-5xl">
+                  <h1 class="text-4xl sm:text-5xl leading-14">
                     Building a new version of my space on the web.
                   </h1>
                 </NuxtMaintenanceErrorTitle>
 
                 <NuxtMaintenanceErrorMessage>
-                  <p class="text-xl sm:text-3xl">
+                  <p class="text-xl sm:text-3xl leading-tight">
                     Projects, articles, experiments, and a few things I learn
                     along the way.
                   </p>
                 </NuxtMaintenanceErrorMessage>
 
-                <div class="space-y-4">
-                  <div class="space-y-2">
-                    <p>Let me know when it’s live.</p>
+                <div class="space-y-2">
+                  <p>Let me know when it’s live.</p>
 
-                    <ListmonkForm
-                      class="flex w-fit items-center space-x-3 rounded-lg bg-woodsmoke-50 px-3 py-1 text-woodsmoke-900"
-                    >
-                      <ListmonkInput
-                        field="email"
-                        type="email"
-                        placeholder="E-mail"
-                        required
-                        class="w-60 placeholder-woodsmoke-900 outline-none"
-                      />
-
-                      <ListmonkButton class="inline-flex cursor-pointer">
-                        <Icon name="iconamoon:send-fill" class="text-xl" />
-                      </ListmonkButton>
-                    </ListmonkForm>
-                  </div>
-
-                  <p>Made with <Icon name="ri:heart-fill" /> by T7n.</p>
+                  <MaintenanceSubscribeForm />
                 </div>
               </div>
             </div>
@@ -112,11 +94,13 @@ const returnHome = () => clearError({ redirect: "/" });
   </NuxtMaintenanceError>
 
   <NuxtLayout v-else name="default">
-    <main class="flex min-h-screen items-center justify-center px-6 py-16">
+    <main class="flex flex-1 items-center justify-center px-6 py-16">
       <div
         class="max-w-xl space-y-6 text-center text-woodsmoke-900 dark:text-woodsmoke-50"
       >
-        <p class="font-mono text-sm text-fuchsia-blue-600 dark:text-fuchsia-blue-400">
+        <p
+          class="font-mono text-sm text-fuchsia-blue-600 dark:text-fuchsia-blue-400"
+        >
           Error {{ statusCode }}
         </p>
 

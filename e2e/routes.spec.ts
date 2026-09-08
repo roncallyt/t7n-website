@@ -14,6 +14,13 @@ test.describe("localized homepages", () => {
     await expect(
       page.getByRole("heading", { name: "Desenvolvedor Full Stack Senior" }),
     ).toBeVisible();
+    await expect(
+      page.getByText(/© 2024–\d{4}\. All rights reserved\./),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "Privacy Policy" }))
+      .toBeVisible();
+    await expect(page.getByRole("link", { name: "Terms of Service" }))
+      .toBeVisible();
   });
 
   test("renders the English homepage", async ({ page, goto }) => {

@@ -37,3 +37,7 @@
   --color-fuchsia-blue-900: #58277c;
   --color-fuchsia-blue-950: #3b115a;
 }
+
+.grecaptcha-badge {
+  visibility: hidden;
+}

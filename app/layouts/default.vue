@@ -7,7 +7,11 @@ useHead({
 </script>
 
 <template>
-  <div>
-    <slot />
+  <div class="flex min-h-screen flex-col">
+    <div class="flex flex-1 flex-col">
+      <slot />
+    </div>
+
+    <SiteFooter />
   </div>
 </template>

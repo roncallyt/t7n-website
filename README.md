@@ -41,8 +41,23 @@ The development server runs at <http://localhost:3000>.
 | `NUXT_LISTMONK_LIST_ID` | Newsletter list identifier |
 | `NUXT_LISTMONK_API_USERNAME` | Listmonk API username |
 | `NUXT_LISTMONK_API_TOKEN` | Listmonk API token |
+| `NUXT_PUBLIC_RECAPTCHA_SITE_KEY` | Public reCAPTCHA v3 key used by the maintenance-page subscription form |
+| `NUXT_RECAPTCHA_SECRET_KEY` | Private reCAPTCHA v3 verification key |
+| `NUXT_RECAPTCHA_ALLOWED_HOSTNAME` | Exact hostname accepted from reCAPTCHA verification |
+| `NUXT_RECAPTCHA_SCORE_THRESHOLD` | Minimum accepted reCAPTCHA v3 score (default `0.5`) |
+| `NUXT_REDIS_URL` | Authenticated Redis URL used by the newsletter rate limiter |
+| `NUXT_RATE_LIMIT_HMAC_SECRET` | Secret used to hash client IPs before creating Redis keys |
+| `NUXT_RATE_LIMIT_MAX_ATTEMPTS` | Allowed attempts per rate-limit window (default `5`) |
+| `NUXT_RATE_LIMIT_WINDOW_SECONDS` | Rolling rate-limit window in seconds (default `600`) |
 
 Use `.env.example` as the local template. Never commit `.env`, `.kamal/secrets`, private keys, tokens, or production credentials.
+
+Use separate reCAPTCHA v3 keys for production and local development. The local
+key must allow `localhost`. Local Redis from the shared infrastructure is
+available at `redis://127.0.0.1:6379/0` without the production ACL.
+In production, set `T7N_WEBSITE_REDIS_PASSWORD` in the infrastructure project
+and use the same URL-encoded password in
+`redis://t7n_website:<password>@redis8:6379/0` for `NUXT_REDIS_URL`.
 
 ## Content
 
