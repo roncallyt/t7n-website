@@ -14,6 +14,13 @@ export default defineConfig<ConfigOptions>({
     trace: "on-first-retry",
     nuxt: {
       rootDir: fileURLToPath(new URL(".", import.meta.url)),
+      nuxtConfig: {
+        nitro: {
+          storage: {
+            maintainer: { driver: "memory" },
+          },
+        },
+      },
     },
   },
   projects: [

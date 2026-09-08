@@ -3,7 +3,23 @@ export default defineNuxtConfig({
   compatibilityDate: "2026-01-01",
   devtools: { enabled: true },
 
-  css: ["./app/assets/css/main.css"],
+  runtimeConfig: {
+    recaptchaSecretKey: "",
+    recaptchaAllowedHostname:
+      process.env.NUXT_RECAPTCHA_ALLOWED_HOSTNAME ||
+      new URL(process.env.NUXT_PUBLIC_SITE_URL || "http://localhost:3000")
+        .hostname,
+    recaptchaScoreThreshold: 0.5,
+    redisUrl: "",
+    rateLimitHmacSecret: "",
+    rateLimitMaxAttempts: 5,
+    rateLimitWindowSeconds: 600,
+    public: {
+      recaptchaSiteKey: "",
+    },
+  },
+
+  css: ["~/assets/css/main.css"],
 
   site: {
     name: "Thomerson Roncally",
