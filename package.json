@@ -50,7 +50,7 @@
     "@vueuse/core": "^14.3.0",
     "@vueuse/nuxt": "^14.3.0",
     "eslint": "10.10.0",
-    "happy-dom": "^20.14.0",
+    "happy-dom": "^21.0.4",
     "husky": "9.1.7",
     "playwright-core": "^1.60.0",
     "tailwindcss": "^4.3.3",
